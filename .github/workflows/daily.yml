@@ -20,12 +20,17 @@ jobs:
         env:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
           COMPETITION: PL
-        run: python bettobbe.py
+        run: |
+          python bettobbe.py
+          python agents.py
       - name: Save report to GitHub Actions artifacts
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: BetTobbe-report
-          path: report.json
+          path: |
+            report.json
+            agents_report.json
+            agents_report.md
           if-no-files-found: warn
           retention-days: 7
