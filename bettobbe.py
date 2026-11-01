@@ -12,11 +12,20 @@ COMPETITION = os.getenv("COMPETITION", "PL")
 TODAY = dt.datetime.now(dt.timezone.utc).date()
 
 def fetch_matches():
+    # Same temporary cache used by multi_league_archive.py during this run.
+    # Do not commit API response files to the repository.
+    if COMPETITION not in ("PL", "PD", "SA"):
+        raise ValueError("Unsupported competition")
+    cache = ROOT / f".api_matches_{COMPETITION}.json"
+    if cache.exists():
+        return json.loads(cache.read_text(encoding="utf-8"))
     req = urllib.request.Request(
         f"{API}/competitions/{COMPETITION}/matches",
         headers={"X-Auth-Token": TOKEN, "Accept": "application/json"})
     with urllib.request.urlopen(req, timeout=35) as response:
-        return json.load(response)["matches"]
+        matches = json.load(response)["matches"]
+    cache.write_text(json.dumps(matches), encoding="utf-8")
+    return matches
 
 def normalized(matches):
     finished, upcoming = [], []
