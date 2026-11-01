@@ -38,7 +38,7 @@ def fit(history, asof, min_matches=35):
     past = [m for m in history if m[0] < asof]
     if len(past) < min_matches:
         return None
-    weights = [0.5 ** max(0, (asof - m[0]).days) / 150 for m in past]
+    weights = [0.5 ** (max(0, (asof - m[0]).days) / 150) for m in past]
     total_w = sum(weights)
     homeavg = sum(m[3] * w for m, w in zip(past, weights)) / total_w
     awayavg = sum(m[4] * w for m, w in zip(past, weights)) / total_w
