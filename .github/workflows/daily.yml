@@ -26,6 +26,7 @@ jobs:
           python bettobbe.py
           python agents.py
           python match_archive.py
+          python multi_league_archive.py
       - name: Save report to GitHub Actions artifacts
         uses: actions/upload-artifact@v4
         if: always()
@@ -37,5 +38,7 @@ jobs:
             agents_report.md
             match_archive.json
             match_archive.md
+            multi_league_archive.json
+            multi_league_archive.md
           if-no-files-found: warn
           retention-days: 7
