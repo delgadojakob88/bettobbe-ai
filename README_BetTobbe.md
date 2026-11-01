@@ -23,3 +23,17 @@ Workflow kör även dagligen ungefär 08:15 vintertid / 09:15 sommartid i Sverig
 - Implementerar **inte** en färdigtränad Dixon–Coles-MLE. Modellen är en enkel Poisson-baslinje, och dess prognoser är inte kalibrerade.
 - Inga rekommenderade spel innan odds finns och modellerna validerats.
 - Ingen automatisk ChatGPT-bild; daglig rapport i JSON.
+
+
+## Version 2 — fyra transparenta analysroller
+
+Kör `python agents.py` efter `python bettobbe.py`. Automatiska GitHub Actions-körningen gör båda stegen och kör `python -m unittest -v test_agents` före datahämtningen.
+
+- **BetRossi:** tidsviktad Poissonmodell för 1X2-sannolikheter.
+- **BetCarrar:** senaste fem matchernas resultat och tydlig markering av saknade nyheter, skador och laguppställningar.
+- **BetMilad:** separat, förenklad kontrollmodell som jämför lagens hemma-/bortamål.
+- **BetTobbe:** granskar avvikelser, begränsad historik och saknade källor.
+
+Rapporterna hamnar i GitHub Actions-artifact: `agents_report.md` (läsbar på telefon) och `agents_report.json` (maskinläsbar).
+
+Viktigt: det är **inte** fyra externa autonoma språkmodeller. Ingen verifierad oddsström eller oberoende nyhetsagent finns, och statistiska prognoser utgör inte ett spelråd.
