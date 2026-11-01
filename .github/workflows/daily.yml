@@ -17,7 +17,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Run offline agent tests
-        run: python -m unittest -v test_agents
+        run: python -m unittest -v test_agents test_multi_league_agents
       - name: Download match data and calculate probabilities
         env:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
@@ -27,6 +27,7 @@ jobs:
           python agents.py
           python match_archive.py
           python multi_league_archive.py
+          python multi_league_agents.py
       - name: Save report to GitHub Actions artifacts
         uses: actions/upload-artifact@v4
         if: always()
@@ -40,5 +41,7 @@ jobs:
             match_archive.md
             multi_league_archive.json
             multi_league_archive.md
+            multi_league_agents.json
+            multi_league_agents.md
           if-no-files-found: warn
           retention-days: 7
