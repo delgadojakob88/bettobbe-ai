@@ -1,0 +1,31 @@
+name: BetTobbe – daily football model
+on:
+  workflow_dispatch:
+  schedule:
+    # 07:15 UTC = 08:15 Swedish winter time; 09:15 summer time.
+    # GitHub Actions cron uses UTC; adjust seasonally if exact local time matters.
+    - cron: "15 7 * * *"
+permissions:
+  contents: read
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download match data and calculate probabilities
+        env:
+          FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+          COMPETITION: PL
+        run: python bettobbe.py
+      - name: Save report to GitHub Actions artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: BetTobbe-report
+          path: report.json
+          if-no-files-found: warn
+          retention-days: 7
