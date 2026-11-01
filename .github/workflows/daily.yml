@@ -25,6 +25,7 @@ jobs:
         run: |
           python bettobbe.py
           python agents.py
+          python match_archive.py
       - name: Save report to GitHub Actions artifacts
         uses: actions/upload-artifact@v4
         if: always()
@@ -34,5 +35,7 @@ jobs:
             report.json
             agents_report.json
             agents_report.md
+            match_archive.json
+            match_archive.md
           if-no-files-found: warn
           retention-days: 7
