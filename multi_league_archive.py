@@ -51,10 +51,19 @@ def league_summary(code,name,matches):
                 key=lambda x:(-x["points"],-(x["goals_for"]-x["goals_against"]),-x["goals_for"],x["team"]))}
 
 def download(code):
+    # Reuse the same API response across all scripts in a GitHub Actions run.
+    # Cache lives only in the ephemeral runner workspace, not in the repository.
+    if code not in LEAGUES:
+        raise ValueError("Unsupported league code")
+    cache = ROOT / f".api_matches_{code}.json"
+    if cache.exists():
+        return json.loads(cache.read_text(encoding="utf-8"))
     req=urllib.request.Request(f"{API}/competitions/{code}/matches",
                                headers={"X-Auth-Token":TOKEN,"Accept":"application/json"})
     with urllib.request.urlopen(req,timeout=35) as response:
-        return json.load(response).get("matches",[])
+        matches=json.load(response).get("matches",[])
+    cache.write_text(json.dumps(matches), encoding="utf-8")
+    return matches
 
 def build():
     if not TOKEN:
