@@ -7,7 +7,7 @@ from collections import defaultdict
 
 ROOT = pathlib.Path(__file__).resolve().parent
 API = "https://api.football-data.org/v4"
-TOKEN = os.getenv("FOOTBALL_DATA_TOKEN", "")
+TOKEN = os.getenv("FOOTBALL_DATA_TOKEN", "").strip()
 COMPETITION = os.getenv("COMPETITION", "PL")
 TODAY = dt.datetime.now(dt.timezone.utc).date()
 
