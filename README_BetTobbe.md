@@ -37,3 +37,16 @@ Kör `python agents.py` efter `python bettobbe.py`. Automatiska GitHub Actions-k
 Rapporterna hamnar i GitHub Actions-artifact: `agents_report.md` (läsbar på telefon) och `agents_report.json` (maskinläsbar).
 
 Viktigt: det är **inte** fyra externa autonoma språkmodeller. Ingen verifierad oddsström eller oberoende nyhetsagent finns, och statistiska prognoser utgör inte ett spelråd.
+
+
+## Modellvalidering och dagens matchbild
+
+Senaste workflow innehåller även:
+- `validate_models.py`: Kronologisk jämförelse av BetRossi, BetMilad och en jämnförbar liga-baslinje. Beräknar Brier, log loss, träffsäkerhet och kalibrering på samma testmatcher.
+- `validation_report.json` och `validation_report.md`: sparas som GitHub Actions-artifact.
+- `render_daily.py`: skapar `bettobbe_today.svg` med vit/svart/guld design. Endast matcher på dagens **svenska kalenderdatum** visas; om färre än tre finns visas tomma platser i stället för matcher från fel datum.
+- `bettobbe_today_manifest.json`: granskningsbar lista över valda matcher och datum.
+
+**Så läser du bilden på iPhone:** kör workflow i GitHub Actions, öppna lyckad körning → Artifacts → BetTobbe-report → packa upp och öppna `bettobbe_today.svg` (till exempel i Safari eller Filer). SVG är en skalbar bild.
+
+Begränsningar: GitHub Actions skapar en fil men publicerar inte automatiskt en bild i ChatGPT. Historiken är fortfarande begränsad, och prognoserna är inte validerade som tillförlitliga. Allsvenskan saknas fortfarande i denna anslutning.
