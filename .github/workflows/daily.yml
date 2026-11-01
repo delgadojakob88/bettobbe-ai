@@ -17,7 +17,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Run offline agent tests
-        run: python -m unittest -v test_agents test_multi_league_agents test_validate_models
+        run: python -m unittest -v test_agents test_multi_league_agents test_validate_models test_render_daily
       - name: Download match data and calculate probabilities
         env:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
@@ -29,6 +29,7 @@ jobs:
           python multi_league_archive.py
           python multi_league_agents.py
           python validate_models.py
+          python render_daily.py
       - name: Save report to GitHub Actions artifacts
         uses: actions/upload-artifact@v4
         if: always()
@@ -46,5 +47,7 @@ jobs:
             multi_league_agents.md
             validation_report.json
             validation_report.md
+            bettobbe_today.svg
+            bettobbe_today_manifest.json
           if-no-files-found: warn
           retention-days: 7
